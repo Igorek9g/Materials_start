@@ -1,5 +1,5 @@
 //Вариант 1
-//
+//Идалов Владимир Александрович
 //Реализовать геометрию со следующими параметрами:
 //Расположить в плоскости XZ G4Cons G4Para и G4Tubs по вершинам вписанного в окружность равностороннего треугольника
 //в плоскости Y фигуры должны распологаться одна над другой (начиная с G4Cons заканчивая G4Tubs)
@@ -10,6 +10,7 @@
 #include <G4SubtractionSolid.hh>
 #include <G4Orb.hh>
 #include <G4Sphere.hh>
+#include <G4Color.hh>
 #include "DetGeometry.hh"
 
 DetGeometry::DetGeometry() {
@@ -29,6 +30,16 @@ G4VPhysicalVolume* DetGeometry::Construct(){
     G4Material* c_material = nist->FindOrBuildMaterial("G4_Fe");
     G4Material* p_material = nist->FindOrBuildMaterial("G4_ALANINE");
     G4Material* t_material = nist->FindOrBuildMaterial("G4_ANTHRACENE");
+
+
+    G4Material *elH = nist->FindOrBuildMaterial("G4_H");
+    G4Material *elC = nist->FindOrBuildMaterial("G4_C");
+
+    G4Material *HC = new G4Material ("HC", 5*g/cm3,2);
+    HC->AddMaterial(elH,0.95);
+    HC->AddMaterial(elC,0.05);
+
+
 
 //G4Cons* con = new G4Cons ("conus", 20 *cm, 40 *cm, 10 *cm, 20 *cm, 50 *cm, 0, pi);
     /*  G4Box* cube = new G4Box ("cube", 100*cm, 100 *cm, 100*cm);
@@ -60,10 +71,14 @@ G4VPhysicalVolume* DetGeometry::Construct(){
           }
 
   */
+    //void G4VisAttributes::SetVisAttributes (const G4VisAttributes* pVA);
+   // void G4VisAttributes::SetVisAttributes (const G4VisAttributes& VA);
+
+    //void G4VisAttributes::SetVisibility (G4bool visibility);
 
     G4Box* body = new G4Box ("b", 20*cm, 150 *cm, 100*cm);
     G4Box* res = new G4Box ("r", 100*cm, 100 *cm, 100*cm);
-    G4Tubs* tube2 = new G4Tubs ("t", 0 *cm, 50 *cm, 200 *cm, 0, pi*2);
+    G4Tubs* tube2 = new G4Tubs ("t", 0 *cm, 70 *cm, 200 *cm, 0, pi*2);
 
     G4RotationMatrix* RM1 = new G4RotationMatrix (0,pi/6,0);
     G4RotationMatrix* RM2 = new G4RotationMatrix (0,-pi/6,0);
@@ -79,6 +94,12 @@ G4VPhysicalVolume* DetGeometry::Construct(){
     //part2 = new G4SubtractionSolid ("part", part2, res, 0, G4ThreeVector(0*cm,-50*cm,-100*cm));
 
     G4LogicalVolume* assy2 = new G4LogicalVolume (part2, c_material, "smth");
+    G4VisAttributes* Clr = new G4VisAttributes (G4Colour::Green());
+    assy2->SetVisAttributes(Clr);
+    //assy2->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+    //Clr->SetForceWireframe(true);
+    //assy2->SetVisAttributes(Clr);
 
     for (int i = 0; i < 6; ++i)
     {

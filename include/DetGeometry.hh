@@ -17,6 +17,7 @@
 #include "G4Cons.hh"
 #include "G4Tubs.hh"
 #include "G4Para.hh"
+#include "G4VisAttributes.hh"
 
 
 #include "G4VUserDetectorConstruction.hh"
