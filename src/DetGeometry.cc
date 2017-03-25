@@ -94,17 +94,33 @@ G4VPhysicalVolume* DetGeometry::Construct(){
     //part2 = new G4SubtractionSolid ("part", part2, res, 0, G4ThreeVector(0*cm,-50*cm,-100*cm));
 
     G4LogicalVolume* assy2 = new G4LogicalVolume (part2, c_material, "smth");
-    G4VisAttributes* Clr = new G4VisAttributes (G4Colour::Green());
+    G4VisAttributes* Clr = new G4VisAttributes (G4Colour::Red());
     assy2->SetVisAttributes(Clr);
+    G4LogicalVolume* assy3 = new G4LogicalVolume (part2, c_material, "smth");
+    G4VisAttributes* Clr3 = new G4VisAttributes (G4Colour::Green());
+    assy3->SetVisAttributes(Clr3);
+    G4LogicalVolume* assy4 = new G4LogicalVolume (part2, c_material, "smth");
+    G4VisAttributes* Clr4 = new G4VisAttributes (G4Colour::Blue());
+    assy4->SetVisAttributes(Clr4);
     //assy2->SetVisAttributes(G4VisAttributes::GetInvisible());
 
-    //Clr->SetForceWireframe(true);
+    //Clr->SetForceWireframe(true);2
     //assy2->SetVisAttributes(Clr);
 
-    for (int i = 0; i < 6; ++i)
+    for (int i = 0; i < 2; ++i)
     {
         G4RotationMatrix *RMtmp = new G4RotationMatrix(0, -pi/12*i, 0);
         new G4PVPlacement(RMtmp, G4ThreeVector(40*i* cm, 0 *cm, 0*cm), assy2, "assy2", logicWorld, false, 0);
+    }
+    for (int i = 2; i < 4; ++i)
+    {
+        G4RotationMatrix *RMtmp = new G4RotationMatrix(0, -pi/12*i, 0);
+        new G4PVPlacement(RMtmp, G4ThreeVector(40*i* cm, 0 *cm, 0*cm), assy3, "assy2", logicWorld, false, 0);
+    }
+    for (int i = 4; i < 6; ++i)
+    {
+        G4RotationMatrix *RMtmp = new G4RotationMatrix(0, -pi/12*i, 0);
+        new G4PVPlacement(RMtmp, G4ThreeVector(40*i* cm, 0 *cm, 0*cm), assy4, "assy2", logicWorld, false, 0);
     }
     //new G4PVPlacement(0, G4ThreeVector(300* cm, 300 *cm, 0), assy2, "assy2", logicWorld, false, 0);
 
